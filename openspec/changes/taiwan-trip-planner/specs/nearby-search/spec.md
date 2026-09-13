@@ -71,3 +71,15 @@ MVP 階段系統 SHALL 僅支援台灣本島與台灣離島範圍內的查詢。
 #### Scenario: 查詢台灣範圍外
 - **WHEN** 查詢中心座標位於台灣本島與離島範圍之外
 - **THEN** 系統告知目前僅支援台灣，且不回傳結果
+
+### Requirement: 資料出處標示
+
+搜尋結果來自多個開放資料源，其中部分來源的授權要求標示出處。系統 SHALL 在呈現搜尋結果的介面上標示所使用的資料源。當結果中含有以 ODbL 授權發布的資料時，系統 SHALL 標示 OpenStreetMap 為出處並註明 ODbL 授權。
+
+#### Scenario: 結果含 ODbL 授權資料
+- **WHEN** 使用者查詢的類別其結果來自 OpenStreetMap
+- **THEN** 結果頁面標示 OpenStreetMap 為資料出處並註明 ODbL 授權
+
+#### Scenario: 結果僅含政府開放資料
+- **WHEN** 使用者查詢的類別其結果全部來自政府開放資料
+- **THEN** 結果頁面標示對應的政府資料源，且不標示 OpenStreetMap

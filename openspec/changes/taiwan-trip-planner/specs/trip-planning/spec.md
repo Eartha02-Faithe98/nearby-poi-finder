@@ -75,3 +75,11 @@ MVP 階段系統 SHALL 僅接受台灣本島與台灣離島範圍內的行程請
 #### Scenario: 請求離島行程
 - **WHEN** 使用者要求規劃澎湖三天兩夜的行程
 - **THEN** 系統正常受理並依一般流程產出行程
+
+### Requirement: 行程資料出處標示
+
+行程中的站點資訊與營業時間來自多個開放資料源。系統 SHALL 在呈現行程的介面上標示所使用的資料源；當行程中任一站點的資訊含有以 ODbL 授權發布的資料時，SHALL 標示 OpenStreetMap 為出處並註明 ODbL 授權。
+
+#### Scenario: 行程含 ODbL 授權資料
+- **WHEN** 行程中任一站點的營業時間取自 OpenStreetMap
+- **THEN** 行程頁面標示 OpenStreetMap 為資料出處並註明 ODbL 授權
