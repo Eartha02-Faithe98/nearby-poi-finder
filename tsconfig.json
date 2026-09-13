@@ -10,6 +10,10 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
+    // 預抓指令稿以 Node 原生的 TypeScript 支援執行（node scripts/prefetch-*.mts），
+    // 而 Node 不做副檔名解析——import 必須明寫 .ts／.mts。tsc 預設禁止這種寫法，
+    // 故開啟此旗標。noEmit 已為 true，符合本旗標的前提。
+    "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
     "incremental": true,
