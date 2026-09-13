@@ -1,0 +1,58 @@
+schema: spec-driven
+
+# Project context (optional)
+# This is shown to AI when creating artifacts.
+# Add your tech stack, conventions, style guides, domain knowledge, etc.
+# Example:
+#   context: |
+#     Tech stack: TypeScript, React, Node.js
+#     We use conventional commits
+#     Domain: e-commerce platform
+
+# Per-artifact rules (optional)
+# Add custom rules for specific artifacts.
+# Example:
+#   rules:
+#     proposal:
+#       - Keep proposals under 500 words
+#       - Always include a "Non-goals" section
+#     tasks:
+#       - Break tasks into chunks of max 2 hours
+
+# Per-operation guidance (optional)
+# Add advisory guidance for how apply and archive work should be conducted.
+# This is separate from artifact rules above.
+# Example:
+#   operations:
+#     apply:
+#       guidance:
+#         - Keep test summaries concise
+#     archive:
+#       guidance:
+#         - Summarize the archive outcome before finishing
+
+context: |
+  產品：台灣旅遊行程規劃工具（Web），使用者以自然語言對話描述需求，系統產出逐時段、
+  交通可行的多日行程。同時提供「附近搜尋」八大類（美食、飲料、停車場、廁所、景點、
+  飯店、交通運輸、伴手禮），既是獨立功能，也在行程每一站旁邊顯示。
+
+  技術棧：Next.js + TypeScript，部署 Vercel free tier。TDX / LLM 金鑰一律只在 server
+  side（API route）使用，絕不進 client bundle。
+
+  資料來源（MVP 一律免費）：
+  - POI、停車場、廁所、景點、餐飲、住宿：TDX 觀光資訊資料庫 v2
+  - 大眾運輸轉乘規劃：TDX 公共運輸旅運規劃功能模組（MaaS routing）
+  - 地理編碼：TDX geocoding
+  - 地圖顯示：MapLibre GL JS
+  - LLM：Gemini API free tier
+  TDX 速率限制 50 req/s per IP。
+
+  地理範圍：MVP 僅台灣本島與離島。日本與其他國家不在 MVP 範圍內，但資料存取必須走
+  PoiProvider / RoutingProvider 介面，讓日後可加入其他 provider 而不改動排程引擎。
+
+  排程引擎的核心原則：LLM 只負責判斷題（依偏好挑選與排序 POI、產生行程敘述）。
+  候選召回、地理分群、交通銜接、營業時間與時間可行性驗證一律由程式 deterministic
+  執行。行程表必須是程式驗證過可行的結果，不得由 LLM 直接生成，以避免幻覺出不存在的
+  地點或不可行的交通銜接。
+
+  帳號：簡單第三方登入 + 儲存行程，使用免費層資料庫。
