@@ -40,3 +40,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# 預抓快照（20 MB）。是否納入版控尚未決定，見 design.md 的 Open Questions。
+# 未納入時以 npm run prefetch:* 自行產生；缺檔時載入器會拋錯並指出指令。
+/data/snapshots/
