@@ -33,7 +33,10 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 - **網路上所有 TDX 教學的端點都是舊的。** `ScenicSpot` 已改名 `Attraction`，base 也換了。
   正確值只信 `spike-notes.md` 的 1.1 節。
-- **TDX 速率限制遠比文件嚴格**：文件說 50 req/s，實測數秒內 6 個請求就 429。探測時要加延遲。
+- **TDX 的真實額度是每分鐘 5 次**，不是文件宣稱的 50 req/s（差約 600 倍）。
+  429 回應標頭寫明 `x-ratelimit-limit-minute: 5`、`retry-after: 40`，且為單一帳號
+  跨所有 API 群的共用額度。因此 **POI 一律走預抓快照，不即時查詢**（design D6）。
+  手動探測時每次請求至少間隔 12 秒。
 - **port 3000 被本機另一個專案長期佔用**，開發請用其他 port（例：`npx next dev -p 3100`）。
 - **Skill 工具被 ASUS 的 skill vetter 擋住**（allowlist 只放行一個）。需要用 openspec 的
   workflow 時，直接用 Bash 讀 `.claude/skills/openspec-*/SKILL.md` 再照做。
@@ -45,7 +48,13 @@ npm test                  # vitest
 npm run lint              # eslint src scripts
 npm run check:no-secrets  # 以哨兵值建置，掃描送到瀏覽器的產物是否含伺服器端機密
 node --env-file=.env.local scripts/tdx-spike.mjs   # TDX 連線煙霧測試
+
+npm run prefetch:tdx      # 預抓 TDX 觀光 POI（約 12 分鐘，需 TDX 金鑰）
+npm run prefetch:toilets  # 預抓環境部公廁（約 2 分鐘，不需金鑰）
+npm run prefetch:osm      # 預抓 OSM 營業時間與飲料（約 1 分鐘）
 ```
+
+`data/snapshots/` 未納入版控。缺檔時載入器會拋錯並指出要跑哪一支指令。
 
 `.env.local` 需要 `TDX_CLIENT_ID`、`TDX_CLIENT_SECRET`（已設定）與 `GEMINI_API_KEY`（尚未設定，
 任務 6.4 才需要）。
