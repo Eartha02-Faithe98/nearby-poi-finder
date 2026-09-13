@@ -13,8 +13,14 @@
 import { ATTRIBUTIONS, buildSnapshot } from "../src/lib/snapshot/types.ts";
 import { fetchJson, keepWithinTaiwan, log, writeSnapshot } from "./lib/prefetch.mts";
 
-/** data.gov.tw 的 metadata 所發布的金鑰，非本專案自行申請。 */
-const API_KEY = "REDACTED";
+/**
+ * 環境部平台的 API 金鑰。
+ *
+ * 預設值是 **data.gov.tw 在 dataset 30794 的公開 metadata 中所發布的金鑰**，
+ * 任何人都能取得，非本專案申請，公開於原始碼不構成外洩。
+ * 但它是共用金鑰，若被限流可於 data.moenv.gov.tw 註冊後以 `MOENV_API_KEY` 覆寫。
+ */
+const API_KEY = process.env.MOENV_API_KEY ?? "REDACTED";
 
 /** 伺服器端硬上限。指定更大的值只會回 1000 筆，且看起來像「離島沒資料」。 */
 const PAGE_SIZE = 1_000;
