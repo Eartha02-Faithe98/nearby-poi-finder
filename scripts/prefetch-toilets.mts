@@ -10,6 +10,7 @@
  * 聚合（同一座標的男廁／女廁／無障礙合併為單一地點）不在此處，見 tasks 3.7。
  */
 
+import type { ToiletRow } from "../src/lib/moenv/toilets.ts";
 import { ATTRIBUTIONS, buildSnapshot } from "../src/lib/snapshot/types.ts";
 import { fetchJson, keepWithinTaiwan, log, writeSnapshot } from "./lib/prefetch.mts";
 
@@ -40,28 +41,6 @@ type MoenvApiRow = {
   type: string;
   exec: string;
   diaper: string;
-};
-
-/**
- * 快照的資料列。
- *
- * **只留用得到的欄位。** 保存全部 14 個原始欄位的快照是 18.7 MB，
- * 而 county／village／administration／exec／areacode／type2 在本專案沒有任何用途。
- * 快照會隨程式碼部署進 Vercel 的函式打包，每一 MB 都是冷啟動成本。
- */
-export type ToiletRow = {
-  /** 環境部的建檔編號，全域唯一。 */
-  id: string;
-  name: string;
-  address: string;
-  lat: number;
-  lon: number;
-  /** 男廁所／女廁所／無障礙廁所／混合廁所／親子廁所／性別友善廁所。 */
-  type: string;
-  /** 清潔等級：特優級／優等級／普通級／不合格。 */
-  grade: string;
-  /** 是否有尿布台。 */
-  diaper: boolean;
 };
 
 /** 座標是字串，且有一小部分是錯的（經緯度顛倒或離群），交由範圍過濾處理。 */

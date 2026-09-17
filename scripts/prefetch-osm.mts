@@ -13,6 +13,7 @@
  * 這也是它不得放在使用者請求路徑上的理由。
  */
 
+import type { OsmPlaceRow } from "../src/lib/osm/pois.ts";
 import { ATTRIBUTIONS, buildSnapshot } from "../src/lib/snapshot/types.ts";
 import { fetchJson, keepWithinTaiwan, log, writeSnapshot } from "./lib/prefetch.mts";
 
@@ -52,18 +53,6 @@ type OverpassElement = {
   lon?: number;
   center?: { lat: number; lon: number };
   tags?: Record<string, string>;
-};
-
-/** 快照的資料列。只留下用得到的標籤，原始 tags 不全量保存。 */
-export type OsmPlaceRow = {
-  id: string;
-  name: string;
-  lat: number;
-  lon: number;
-  openingHours?: string;
-  amenity?: string;
-  shop?: string;
-  cuisine?: string;
 };
 
 function coordinateOf(row: OsmPlaceRow) {
