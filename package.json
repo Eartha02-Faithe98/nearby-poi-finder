@@ -11,7 +11,7 @@
     "test:watch": "vitest",
     "check:no-secrets": "node scripts/check-no-secrets.mjs",
     "prefetch:tdx": "node --env-file=.env.local scripts/prefetch-tdx.mts",
-    "prefetch:toilets": "node scripts/prefetch-toilets.mts",
+    "prefetch:toilets": "node --env-file=.env.local scripts/prefetch-toilets.mts",
     "prefetch:osm": "node scripts/prefetch-osm.mts"
   },
   "dependencies": {
