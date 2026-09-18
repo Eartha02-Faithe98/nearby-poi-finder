@@ -2,7 +2,7 @@
  * tasks 3.6 — 預抓環境部「全國公廁建檔資料」為快照（design D8）。
  *
  * 資料集：data.gov.tw dataset 30794 → `data.moenv.gov.tw/api/v2/fac_p_07`。
- * API 金鑰不需自行註冊，data.gov.tw 的 metadata 即附政府發布的可用 key。
+ * API 金鑰需自行於 data.moenv.gov.tw 註冊，以 `MOENV_API_KEY` 提供。
  *
  * 執行：`node scripts/prefetch-toilets.ts`
  * 全量 45,843 筆、46 次分頁請求，約 2 分鐘。
@@ -15,13 +15,20 @@ import { ATTRIBUTIONS, buildSnapshot } from "../src/lib/snapshot/types.ts";
 import { fetchJson, keepWithinTaiwan, log, writeSnapshot } from "./lib/prefetch.mts";
 
 /**
- * 環境部平台的 API 金鑰。
+ * 環境部平台的 API 金鑰，必填，由 `.env.local` 的 `MOENV_API_KEY` 提供。
  *
- * 預設值是 **data.gov.tw 在 dataset 30794 的公開 metadata 中所發布的金鑰**，
- * 任何人都能取得，非本專案申請，公開於原始碼不構成外洩。
- * 但它是共用金鑰，若被限流可於 data.moenv.gov.tw 註冊後以 `MOENV_API_KEY` 覆寫。
+ * **不留共用金鑰作為預設值。** data.gov.tw 的公開 metadata 確實附有一支可用金鑰，
+ * 但那是所有人共用的額度——寫進原始碼等於把本專案的預抓綁在一個隨時可能已被
+ * 他人用盡的配額上，而預抓失敗的樣子是「離島沒資料」這種不易察覺的形式。
+ * 自行於 data.moenv.gov.tw 註冊一支，額度才是自己的。
  */
-const API_KEY = process.env.MOENV_API_KEY ?? "REDACTED";
+const API_KEY = process.env.MOENV_API_KEY?.trim();
+if (!API_KEY) {
+  throw new Error(
+    "缺少必要的環境變數：MOENV_API_KEY。" +
+      "請於 https://data.moenv.gov.tw 註冊取得金鑰後填入 .env.local。",
+  );
+}
 
 /** 伺服器端硬上限。指定更大的值只會回 1000 筆，且看起來像「離島沒資料」。 */
 const PAGE_SIZE = 1_000;

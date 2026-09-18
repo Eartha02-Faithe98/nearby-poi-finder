@@ -50,11 +50,14 @@ npm run check:no-secrets  # 以哨兵值建置，掃描送到瀏覽器的產物�
 node --env-file=.env.local scripts/tdx-spike.mjs   # TDX 連線煙霧測試
 
 npm run prefetch:tdx      # 預抓 TDX 觀光 POI（約 12 分鐘，需 TDX 金鑰）
-npm run prefetch:toilets  # 預抓環境部公廁（約 2 分鐘，不需金鑰）
+npm run prefetch:toilets  # 預抓環境部公廁（約 2 分鐘，需 MOENV_API_KEY）
 npm run prefetch:osm      # 預抓 OSM 營業時間與飲料（約 1 分鐘）
 ```
 
 `data/snapshots/` 未納入版控。缺檔時載入器會拋錯並指出要跑哪一支指令。
 
-`.env.local` 需要 `TDX_CLIENT_ID`、`TDX_CLIENT_SECRET`（已設定）與 `GEMINI_API_KEY`（尚未設定，
-任務 6.4 才需要）。
+`.env.local` 需要 `TDX_CLIENT_ID`、`TDX_CLIENT_SECRET`（已設定）、`GEMINI_API_KEY`（尚未設定，
+任務 6.4 才需要）與 `MOENV_API_KEY`（尚未設定，僅 `prefetch:toilets` 需要）。
+
+**不要在原始碼寫入任何金鑰的預設值，即使是公開資料平台發布的共用金鑰。**
+共用金鑰等於共用配額，而預抓失敗的樣子往往是「某個縣市沒資料」這種不易察覺的形式。

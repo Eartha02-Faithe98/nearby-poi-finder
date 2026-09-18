@@ -262,7 +262,7 @@ TDX 的澎湖公車原始資料完整存在，MaaS 模組只是沒把澎湖納�
 | data.gov.tw metadata API | `GET https://data.gov.tw/api/v2/rest/dataset/{datasetId}` |
 | 公廁資料集 id | **30794**（「全國公廁建檔資料」，環境部） |
 | 實際資料 API | `GET https://data.moenv.gov.tw/api/v2/fac_p_07` |
-| API 金鑰 | **不需自行註冊**。data.gov.tw 的 metadata 的 `resourceDownloadUrl` 內含政府發布的可用 key |
+| API 金鑰 | metadata 的 `resourceDownloadUrl` 內含一支政府發布的共用 key，但共用即共用配額，本專案改為自行註冊並以 `MOENV_API_KEY` 提供（2026-09-18 裁示） |
 | 授權 | 政府資料開放授權條款第 1 版（無 share-alike） |
 
 data.gov.tw **沒有公開的搜尋 API**（`/api/front/dataset/search`、`/api/v1/rest/search`、
